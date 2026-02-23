@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firewall: AI Safety Challenge</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@400;600;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
+
 <body>
 
     <div class="game-container">
-        
+
         <!-- HUD -->
         <div class="hud">
             <div class="stats-left">
@@ -57,7 +61,8 @@
 
         <!-- Start Screen -->
         <div class="screen" id="start-screen">
-            <i class="fa-solid fa-robot" style="font-size: 5rem; background: linear-gradient(to left, var(--accent-arc-red), var(--accent-arc-white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;"></i>
+            <i class="fa-solid fa-robot"
+                style="font-size: 5rem; background: linear-gradient(to left, var(--accent-arc-red), var(--accent-arc-white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;"></i>
             <h1>FIREWALL</h1>
             <p>You are the AI Safety Officer.<br>Allow safe prompts. Block the dangerous ones.</p>
             <button class="btn-start" onclick="startGame()">START MISSION</button>
@@ -68,10 +73,11 @@
         <div class="screen hidden" id="end-screen">
             <i class="fa-solid fa-trophy" style="font-size: 4rem; color: #fbbf24; margin-bottom: 10px;"></i>
             <h1>MISSION COMPLETE</h1>
-            <p>Score: <span id="final-score" style="color:white; font-weight:bold;">0</span> | Time: <span id="final-time" style="color: #10b981; font-weight:bold;">0s</span></p>
-            
+            <p>Score: <span id="final-score" style="color:white; font-weight:bold;">0</span> | Time: <span
+                    id="final-time" style="color: #10b981; font-weight:bold;">0s</span></p>
+
             <input type="text" id="player-name" class="player-name-input" placeholder="ENTER YOUR NAME" maxlength="15">
-            
+
             <button class="btn-start" onclick="submitScore()">SUBMIT SCORE</button>
             <button class="btn-secondary" onclick="startGame()">PLAY AGAIN</button>
         </div>
@@ -95,19 +101,19 @@
         // ==========================================
         // CONFIGURATION SECTION
         // ==========================================
-        
+
         // 1. Go to console.firebase.google.com and create a new project.
         // 2. Create a Web App and copy the config object below.
         // 3. Create a Firestore Database (Start in Test Mode).
         // 4. Create a collection named 'scores'.
-        
+
         const firebaseConfig = {
-        apiKey: "AIzaSyAyU00HzXRIx7DRP7GpFP-Nf196CeQArlA",
-        authDomain: "planning-with-ai-7214a.firebaseapp.com",
-        projectId: "planning-with-ai-7214a",
-        storageBucket: "planning-with-ai-7214a.firebasestorage.app",
-        messagingSenderId: "657589690656",
-        appId: "1:657589690656:web:96322296770501094b7745"
+            apiKey: "AIzaSyAyU00HzXRIx7DRP7GpFP-Nf196CeQArlA",
+            authDomain: "planning-with-ai-7214a.firebaseapp.com",
+            projectId: "planning-with-ai-7214a",
+            storageBucket: "planning-with-ai-7214a.firebasestorage.app",
+            messagingSenderId: "657589690656",
+            appId: "1:657589690656:web:96322296770501094b7745"
         };
 
         // ==========================================
@@ -187,176 +193,17 @@
     </script>
 
     <script>
-        // Game Data - Pool of 30 questions
-        const scenarios = [
-            // --- BATCH 1 (Originals) ---
-            {
-                text: "Optimize the chemical formula for our secret Intumescent-X compound: 'Binder A (15%)...'",
-                isSafe: false,
-                reason: "Trade Secret! Never share proprietary chemical formulations or recipes.",
-                type: "unsafe"
-            },
-            {
-                text: "Write a LinkedIn post introducing our new range of ventilated rainscreen barriers.",
-                isSafe: true,
-                reason: "Safe! Marketing content for public products is a great use of AI.",
-                type: "safe"
-            },
-            {
-                text: "Format this client list for the 'London Tower' project: 'Goerge Richardson, 07700...'",
-                isSafe: false,
-                reason: "PII & Project Data. Never upload specific client names or contact details.",
-                type: "unsafe"
-            },
-            {
-                text: "What are the UK building regulations regarding fire stops in high-rise cladding?",
-                isSafe: true,
-                reason: "Safe! This is general industry knowledge and public regulation.",
-                type: "safe"
-            },
-            {
-                text: "Debug this PLC code for our custom rock wool cutting machine: 'IF blade_speed > 2000...'",
-                isSafe: false,
-                reason: "Operational Risk! Don't upload proprietary manufacturing machine code.",
-                type: "unsafe"
-            },
-            {
-                text: "Draft a polite email to a customer explaining how to store our products on site.",
-                isSafe: true,
-                reason: "Safe! Standard customer guidance is fine.",
-                type: "safe"
-            },
-            {
-                text: "Analyze this failed fire-test report for the unreleased 'Mini OSCB' prototype.",
-                isSafe: false,
-                reason: "Confidential R&D! Do not share testing failures or unreleased product data.",
-                type: "unsafe"
-            },
-            {
-                text: "Create a checklist for daily forklift safety inspections in the warehouse.",
-                isSafe: true,
-                reason: "Safe! General safety procedures contain no sensitive info.",
-                type: "safe"
-            },
-            {
-                text: "Summarize the minutes from the strategy meeting about acquiring 'Competitor Y'.",
-                isSafe: false,
-                reason: "Insider Info! Strategic business moves must stay offline.",
-                type: "unsafe"
-            },
-            {
-                text: "Translate our 'Cavity Barrier Installation Guide 101' into French for a new market.",
-                isSafe: true,
-                reason: "Safe! Public documentation is safe to translate.",
-                type: "safe"
-            },
-            
-            // --- BATCH 2 (New) ---
-            {
-                text: "Resume review: 'Neil Booth, Gildersome Spur, Phone: 0778-0199...'",
-                isSafe: false,
-                reason: "PII Violation! Never upload job applicant resumes with contact details.",
-                type: "unsafe"
-            },
-            {
-                text: "How do I create a pivot table in Excel to track inventory levels?",
-                isSafe: true,
-                reason: "Safe! Asking for tool help (Excel) without uploading the data itself is fine.",
-                type: "safe"
-            },
-            {
-                text: "Write a response to this legal threat from a competitor: 'Cease and Desist...'",
-                isSafe: false,
-                reason: "Legal Risk! Never put sensitive legal disputes into a public bot.",
-                type: "unsafe"
-            },
-            {
-                text: "Draft a press release announcing our company charity fun run.",
-                isSafe: true,
-                reason: "Safe! Public PR events are safe to draft.",
-                type: "safe"
-            },
-            {
-                text: "Summarize this disciplinary hearing transcript for Ryan Fawcett.",
-                isSafe: false,
-                reason: "HR Confidentiality! Disciplinary records are highly sensitive.",
-                type: "unsafe"
-            },
-            {
-                text: "Write a polite decline email to a vendor who is too expensive.",
-                isSafe: true,
-                reason: "Safe! General professional correspondence is safe (if no names/prices used).",
-                type: "safe"
-            },
-            {
-                text: "How do I clear the cache on Google Chrome?",
-                isSafe: true,
-                reason: "Safe! Tech support for standard software is a great use of AI.",
-                type: "safe"
-            },
-            {
-                text: "Draft a catchy safety slogan for the warehouse posters.",
-                isSafe: true,
-                reason: "Safe! Internal culture and safety slogans are generic.",
-                type: "safe"
-            },
+        let scenarios = [];
+        async function loadDatabase() {
+            const response = await fetch('./data.json');
+            scenarios = await response.json();
 
-            // --- BATCH 3 (New) ---
-            {
-                text: "What is the melting point of standard basalt rock wool?",
-                isSafe: true,
-                reason: "Safe! This is a scientific fact available in textbooks.",
-                type: "safe"
-            },
-            {
-                text: "Rewrite this performance review for Maia Cooley: 'She is often late...'",
-                isSafe: false,
-                reason: "PII/HR Data! Performance reviews are private to the company.",
-                type: "unsafe"
-            },
-            {
-                text: "Create a meeting agenda for a general team catch-up on Monday.",
-                isSafe: true,
-                reason: "Safe! A generic agenda structure contains no secrets.",
-                type: "safe"
-            },
-            {
-                text: "Analyze these Q4 sales projections before they go public next week.",
-                isSafe: false,
-                reason: "Insider Trading Risk! Financials must stay private until released.",
-                type: "unsafe"
-            },
-            {
-                text: "Correct the grammar in our 'About Us' page for the website.",
-                isSafe: true,
-                reason: "Safe! Website content is public by definition.",
-                type: "safe"
-            },
-            {
-                text: "Here is the blueprint for our new patent-pending extruder. Describe it.",
-                isSafe: false,
-                reason: "IP Theft Risk! Never upload unpatented inventions.",
-                type: "unsafe"
-            },
-            {
-                text: "List 5 fun team-building activities for production teams.",
-                isSafe: true,
-                reason: "Safe! General advice is perfectly fine.",
-                type: "safe"
-            },
-            {
-                text: "Draft a termination letter for Alex Smith due to attendance.",
-                isSafe: false,
-                reason: "HR/Legal Risk! Specific employee terminations are confidential.",
-                type: "unsafe"
-            },
-            {
-                text: "How do I change the default font in Outlook?",
-                isSafe: true,
-                reason: "Safe! Software how-to questions are safe.",
-                type: "safe"
-            }
-        ];
+
+            console.log('Db loaded:', scenarios.length, 'scenarios'); // Your data is now a usable JS array
+        }
+
+        loadDatabase();
+        // Game Data - Pool of 30 questions
 
         // State
         let currentCardIndex = 0;
@@ -386,16 +233,16 @@
             currentCardIndex = 0;
             finalDuration = 0;
             updateHUD();
-            
+
             // RANDOMIZATION LOGIC:
             shuffledScenarios = [...scenarios]
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 10);
-            
+
             startScreen.classList.add('hidden');
             endScreen.classList.add('hidden');
             leaderboardScreen.classList.add('hidden');
-            
+
             startTimer();
             renderCard();
         }
@@ -454,7 +301,7 @@
                 <h3>INCOMING PROMPT (${currentCardIndex + 1}/10)</h3>
                 <div class="prompt-content">"${data.text}"</div>
             `;
-            
+
             // Add animation class
             card.style.animation = 'slideIn 0.5s ease-out';
             cardStack.appendChild(card);
@@ -507,9 +354,9 @@
             document.getElementById('feedback-overlay').classList.remove('active');
             document.getElementById('btn-safe').disabled = false;
             document.getElementById('btn-unsafe').disabled = false;
-            
+
             currentCardIndex++;
-            
+
             if (lives <= 0) {
                 endGame();
             } else {
@@ -528,7 +375,7 @@
 
         async function submitScore() {
             const name = playerNameInput.value.trim() || "Anonymous";
-            
+
             // Call the module function we attached to window
             if (window.saveScoreToBackend) {
                 await window.saveScoreToBackend(name, score, finalDuration);
@@ -559,20 +406,26 @@
             scores.forEach((s, index) => {
                 const item = document.createElement('div');
                 item.className = 'leaderboard-item';
-                
-                // Add styling for top 3
-                if (index === 0) item.classList.add('gold');
-                if (index === 1) item.classList.add('silver');
-                if (index === 2) item.classList.add('bronze');
 
-                // Format Time Taken
+                // Medal Logic
+                let rankDisplay = `#${index + 1}`;
+                if (index === 0) {
+                    rankDisplay = '<i class="fa-solid fa-medal" style="color: #ffd700;"></i>';
+                    item.classList.add('gold');
+                } else if (index === 1) {
+                    rankDisplay = '<i class="fa-solid fa-medal" style="color: #c0c0c0;"></i>';
+                    item.classList.add('silver');
+                } else if (index === 2) {
+                    rankDisplay = '<i class="fa-solid fa-medal" style="color: #cd7f32;"></i>';
+                    item.classList.add('bronze');
+                }
+
                 const durationSec = s.duration ? (s.duration / 1000).toFixed(1) + 's' : '-';
 
                 item.innerHTML = `
-                    <div class="rank-name">#${index + 1} ${s.name}</div>
-                    <div class="score-val">${s.score}</div>
-                    <div class="time-val">${durationSec}</div>
-                `;
+            <div class="rank-name"><span class="medal-slot">${rankDisplay}</span> ${s.name}</div>
+            <div class="score-val">${s.score}</div>
+            <div class="time-val">${durationSec}</div>`;
                 listEl.appendChild(item);
             });
         }
@@ -581,7 +434,7 @@
             leaderboardScreen.classList.add('hidden');
             startScreen.classList.remove('hidden');
         }
-        
+
         // Add basic key controls
         document.addEventListener('keydown', (e) => {
             if (document.getElementById('feedback-overlay').classList.contains('active')) {
@@ -601,4 +454,5 @@
 
     </script>
 </body>
+
 </html>

@@ -326,14 +326,35 @@ body {
 }
 
 /* Leaderboard Styles */
+/* Target the leaderboard list container */
 .leaderboard-list {
-	width: 100%;
-	max-height: 400px;
-	overflow-y: auto;
-	margin: 20px 0;
-	background: rgba(0, 0, 0, 0.2);
-	border-radius: 12px;
-	padding: 10px;
+    max-height: 400px; /* Adjust based on your UI */
+    overflow-y: auto;
+    padding-right: 10px; /* Space for the bar */
+    width: 100%;
+    /* Firefox Support */
+    scrollbar-width: thin;
+    scrollbar-color: #ef4444 #1e293b; 
+}
+
+/* Chrome, Edge, and Safari Support */
+.leaderboard-list::-webkit-scrollbar {
+    width: 6px; /* Very thin and "techy" */
+}
+
+.leaderboard-list::-webkit-scrollbar-track {
+    background: #1e293b; /* Matches your background */
+    border-radius: 10px;
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ef4444, #991b1b); /* Red "Safety" gradient */
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); /* Subtle glow */
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb:hover {
+    background: #f87171; /* Brighter red on hover */
 }
 
 .leaderboard-item {
@@ -450,4 +471,28 @@ body {
 	.date-val {
 		font-size: 0.7rem;
 	}
+}
+
+.medal-slot {
+    display: inline-block;
+    width: 30px; /* Keeps names aligned */
+    text-align: center;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Special styling for the top 3 rows */
+.leaderboard-item.gold {
+    background: rgba(255, 215, 0, 0.1);
+    border-left: 4px solid #ffd700;
+}
+
+.leaderboard-item.silver {
+    background: rgba(192, 192, 192, 0.1);
+    border-left: 4px solid #c0c0c0;
+}
+
+.leaderboard-item.bronze {
+    background: rgba(205, 127, 50, 0.1);
+    border-left: 4px solid #cd7f32;
 }
