@@ -17,36 +17,36 @@
 }
 
 body {
-	background-color: var(--bg-color) ;
-	color: var(--text-main);
-	font-family: 'Urbanist', sans-serif;
-	margin: 0;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	overflow: hidden;
-	background-image:
-		radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 20%),
-		radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 20%);
+    /* Change height from 100vh to 100dvh */
+    height: 100dvh; 
+    
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Urbanist', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* ... keep your background-image ... */
 }
 
-/* Container */
 .game-container {
-	width: 100%;
-	max-width: 600px;
-	/* Widened slightly for the date */
-	height: 100%;
-	max-height: 800px;
-	background: rgba(30, 41, 59, 0.5);
-	backdrop-filter: blur(10px);
-	border-radius: 20px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-	overflow: hidden;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    /* Change max-height to 100dvh */
+    max-height: 100dvh; 
+    
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden;
 }
 
 /* Header / HUD */
@@ -82,23 +82,25 @@ body {
 	opacity: 0.2;
 }
 
-/* Game Area */
 .game-area {
-	flex: 1;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 20px;
+    flex: 1; /* This tells it to fill available space */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden; /* Add this to prevent card spilling */
 }
 
-/* The Card */
 .card-stack {
-	position: relative;
-	width: 100%;
-	height: 400px;
-	perspective: 1000px;
+    position: relative;
+    width: 100%;
+    /* REMOVE height: 400px; and replace with these: */
+    flex: 1; 
+    min-height: 200px; 
+    
+    perspective: 1000px;
 }
 
 .prompt-card {
@@ -495,4 +497,40 @@ body {
 .leaderboard-item.bronze {
     background: rgba(205, 127, 50, 0.1);
     border-left: 4px solid #cd7f32;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 600px) {
+    .game-container {
+        border-radius: 0; /* Go edge-to-edge on mobile */
+        max-height: 100dvh;
+        border: none;
+    }
+    
+    .hud {
+        padding: 15px; /* Tighter top bar */
+    }
+
+    .game-area {
+        padding: 15px;
+    }
+
+    .prompt-card {
+        padding: 20px; /* Tighter text spacing */
+    }
+
+    .prompt-content {
+        font-size: 1.1rem; /* Slightly smaller text */
+        margin-bottom: 10px;
+    }
+
+    .controls {
+        padding: 15px; /* Bring buttons up */
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 15px 10px; /* slightly thinner buttons */
+        font-size: 1rem;
+    }
 }
